@@ -116,6 +116,26 @@ Finally, reboot to be sure the Node.js application starts automatically:
 
     sudo reboot
 
+##Adding HomeKit to iOS##
+
+HomeKit is actually not an app; it's a "database" similar to HealthKit and PassKit. But where HealthKit has the companion _Health_ app and PassKit has _Passbook_, Apple has supplied no app for managing your HomeKit database (at least [not yet](http://9to5mac.com/2015/05/20/apples-planned-ios-9-home-app-uses-virtual-rooms-to-manage-homekit-accessories/)). However, the HomeKit API is open for developers to write their own apps for adding devices to HomeKit.
+
+Fortunately, there are now a few apps in the App Store that can manage your HomeKit devices. The most comprehensive one I've used is [MyTouchHome](https://itunes.apple.com/us/app/mytouchhome/id965142360?mt=8&at=11lvmd&ct=mhweb) which costs $2.
+
+There are also some free apps that work OK. Try [Insteon+](https://itunes.apple.com/US/app/id919270334?mt=8) or [Lutron](https://itunes.apple.com/us/app/lutron-app-for-caseta-wireless/id886753021?mt=8) or a number of others.
+
+If you are a member of the iOS developer program, I highly recommend Apple's [HomeKit Catalog](https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html) app, as it is reliable and comprehensive and free (and open source).
+
+Once you've gotten a HomeKit app running on your iOS device, it should "discover" the single accessory "Homebridge", assuming that you're still running Homebridge and you're on the same Wifi network. Adding this accessory will automatically add all accessories and platforms defined in `config.json`.
+
+When you attempt to add Homebridge, it will ask for a "PIN code". The default code is `031-45-154` (but this can be changed, see `config-sample.json`).
+
+##Interacting with your Devices##
+
+Once your device has been added to HomeKit, you should be able to tell Siri to control your devices. However, realize that Siri is a cloud service, and iOS may need some time to synchronize your device information with iCloud.
+
+One final thing to remember is that Siri will almost always prefer its default phrase handling over HomeKit devices. For instance, if you name your Sonos device "Radio" and try saying "Siri, turn on the Radio" then Siri will probably start playing an iTunes Radio station on your phone. Even if you name it "Sonos" and say "Siri, turn on the Sonos", Siri will probably just launch the Sonos app instead. This is why, for instance, the suggested `name` for the Sonos accessory is "Speakers".
+
 ##Supported OS##
 
 Tested with Debian 6.0, but it should work on other Linux systems that use startup scripts in **/etc/init.d** (Red Hat, CentOS, Gentoo, Ubuntu, etc.).
