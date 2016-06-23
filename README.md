@@ -67,8 +67,8 @@ The items declared and passed to the Node.js application are:
 The items declared and used by the overall management of executing the application are:
 
 - **NODE_EXEC** - location of the Node.js package executable - useful to set if the executable isn't on your PATH or isn't a service (defaults to `$(which node)`)
-- **APP_DIR** - location of the Node.js application directory (defaults to **"/var/www/example.com"**, should be set to HAP-NodeJS path **"/home/user/siri-oo/HAP-NodeJS")
-- **NODE_APP** - filename of the Node.js application (defaults to **"app.js"**, should be set to Core.js)
+- **APP_DIR** - location of the Node.js application directory (defaults to **"/var/www/example.com"**, should be set to HAP-NodeJS path **"/home/user/siri-oo/HAP-NodeJS"**)
+- **NODE_APP** - filename of the Node.js application (defaults to **"app.js"**, should be set to **"Core.js"**)
 - **PID_DIR** - location of the PID directory (defaults to **"$APP_DIR/pid"**)
 - **PID_FILE** - name of the PID file (defaults to **"$PID_DIR/app.pid"**)
 - **LOG_DIR** - location of the log (Node.js application output) directory (defaults to **"$APP_DIR/log"**)
