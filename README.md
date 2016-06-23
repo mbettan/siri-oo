@@ -8,7 +8,7 @@ The Startup script is based on node-startup project link: https://github.com/cho
      ``sudo apt-get install nodejs npm git-core libnss-mdns libavahi-compat-libdnssd-dev``  
      ``sudo npm config set registry http://registry.npmjs.org/``  
      ``sudo npm install -g node-gyp``
-	 ``ln -s /usr/bin/nodejs /usr/bin/node``
+     ``ln -s /usr/bin/nodejs /usr/bin/node``
 
 1. Clone the siri-oo project :  
      ``git clone https://github.com/mbettan/siri-oo.git``  
