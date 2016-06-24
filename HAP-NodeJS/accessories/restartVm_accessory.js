@@ -60,7 +60,7 @@ ooFlow.on('identify', function(paired, callback) {
 
 // Add the actual Lightbulb Service and listen for change events from iOS.
 ooFlow
-  .addService(Service.Lightbulb, "Restart Windows VM") // services exposed to the user should have "names" like "Restart VM Flow" for us
+  .addService(Service.Lightbulb, "RestartVMFlow") // services exposed to the user should have "names" like "Restart VM Flow" for us
   .getCharacteristic(Characteristic.On)
   .on('set', function(value, callback) {
     FAKE_LIGHT.setPowerOn(value);
