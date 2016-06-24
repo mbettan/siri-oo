@@ -20,28 +20,24 @@ The Startup script is based on node-startup project link: https://github.com/cho
     ``npm rebuild``  
 
 1. Rebuild npm:  
-    ``npm install node-persist debug mdns srp ed25519 curve25519``
+    ``npm install node-persist debug mdns srp ed25519 curve25519 rest``
+
+1. Make sure that the central_url variable in accessory js contains your url:  
+    check accessories in siri-oo/HAP-NodeJS/accessories
 
 1. Try to run the server:  
     ``node Core.js``  
 
-
 #node-startup#
 
-Startup script for Linux-based systems for running a [Node.js](http://nodejs.org/) app when rebooting, using an **/etc/init.d** script.
+Startup script for Linux-based systems for running a HAP-Server Node JS app when rebooting, using an **/etc/init.d** script.
 
-
-## Looking for a maintainer
-
-If you use node-startup and would like to be a maintainer, send me a message.
 
 ##Why node-startup?##
 
 When my VPS was rebooted occassionally by the hosting provider, my Node.js app was not coming back online after boot. This script can be used in **/etc/init.d**, which will allow rc.d to restart your app when the machine reboots without your knowledge.
 
-If you are using [MongoDB](http://www.mongodb.org/), [Redis](http://redis.io/), or [Nginx](http://nginx.org/), you want to add those to your default run-level as well.
-
-##Installation##
+##Startup Installation##
 
 Clone the repo:
 
@@ -50,11 +46,11 @@ Clone the repo:
 
 Edit the **node-app** script with your settings from the **Configuration** section, then follow instructions in the **Running** section.
 
-##Configuration##
+##Startup Configuration##
 
 At the top of the **node-app** file, a few items are declared which are either passed to the Node.js app or used for general execution/management.
 
-###Node.js Config###
+###Node.js Config for Startup###
 
 The items declared and passed to the Node.js application are:
 
@@ -75,7 +71,7 @@ The items declared and used by the overall management of executing the applicati
 - **LOG_FILE** - name of the log file (defaults to **"$LOG_DIR/app.log"**)
 - **APP_NAME** - name of the app for display and messaging purposes (defaults to **"Node app"**)
 
-##Running##
+##Running Startup##
 	
 Copy the startup script **node-app** to your **/etc/init.d** directory:
 
@@ -136,7 +132,7 @@ Once your device has been added to HomeKit, you should be able to tell Siri to c
 
 One final thing to remember is that Siri will almost always prefer its default phrase handling over HomeKit devices. For instance, if you name your Sonos device "Radio" and try saying "Siri, turn on the Radio" then Siri will probably start playing an iTunes Radio station on your phone. Even if you name it "Sonos" and say "Siri, turn on the Sonos", Siri will probably just launch the Sonos app instead. This is why, for instance, the suggested `name` for the Sonos accessory is "Speakers".
 
-##Supported OS##
+##Startup Supported OS##
 
 Tested with Debian 6.0, but it should work on other Linux systems that use startup scripts in **/etc/init.d** (Red Hat, CentOS, Gentoo, Ubuntu, etc.).
 
