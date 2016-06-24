@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operation id="c4cbf1b4-f661-4df7-8b11-088e294010a6">
+  <descriptionCdata><![CDATA[c4cbf1b4-f661-4df7-8b11-088e294010a6.description=<pre>This operation will set up the log4j environment to be used by the OO flow. \nIt is assumed that this operation is one of the first steps and that it is only called ONCE  in the entire flow+subflows.\n\nInputs\:\nlogLocation      This op runs on the default worker group, in a cluster/ha environment it is recommended to put the log file on a file share. Note, this input must end with / or \\ (linux/windows).\nlogLevel\tSame options as known from log4j\: TRACE, DEBUG, INFO, WARN, ERROR, FATAL\noverwrite\tdefault false, but if true the file will be cleared by this operation\npattern\tdefault value\: %d{yyyy-MM-dd HH\:mm\:ss,SSS} %-5p - %m%n - Check the PatternLayout class here\: http\://logging.apache.org/log4j/1.2/apidocs/index.html\nlogType\tdefault value\: FILE. Currently the only supported value. We intend to add MEMORY and MEMORY+FILE later on.\n\nNote that you can still have log operation with say DEBUG level, but if the main log level is set to INFO, nothing will happen and the log operation will still report success (important\: this operation is not the one that logs - this is only to initialize the logger).\n\nResponses\:\nsuccess - the log file was successfully initialized\nfailure - invalid inputs\n</pre>
+]]></descriptionCdata>
+  <annotation>c4cbf1b4-f661-4df7-8b11-088e294010a6.description</annotation>
+  <name>Log Initializer</name>
+  <categories/>
+  <inputs>
+    <userInputBinding id="17c624db-ca78-4c1c-a02c-9344f149c6f6">
+      <annotation></annotation>
+      <assignFromContext>true</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>logLocation</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <record>false</record>
+      <prompt></prompt>
+      <isMultiSelect>false</isMultiSelect>
+      <sourceDelimiter>|</sourceDelimiter>
+    </userInputBinding>
+    <userInputBinding id="8e3550d2-31ef-4290-a31d-d560a148e0f9">
+      <annotation></annotation>
+      <assignFromContext>true</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>logLevel</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <record>false</record>
+      <prompt></prompt>
+      <isMultiSelect>false</isMultiSelect>
+      <sourceDelimiter>|</sourceDelimiter>
+    </userInputBinding>
+    <staticBinding id="ea6740ce-c45e-42a8-afaf-79fda37cd244">
+      <annotation></annotation>
+      <assignFromContext>true</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>overwrite</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <value>false</value>
+      <record>false</record>
+    </staticBinding>
+    <staticBinding id="093f0f0c-689c-4247-bfbe-171c42caf8bb">
+      <annotation></annotation>
+      <assignFromContext>true</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>pattern</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <value>%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p - %m%n</value>
+      <record>false</record>
+    </staticBinding>
+    <staticBinding id="6e3f00b0-5cee-48b7-b97e-e6224a00e909">
+      <annotation></annotation>
+      <assignFromContext>true</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>logType</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <value>FILE</value>
+      <record>false</record>
+    </staticBinding>
+  </inputs>
+  <scriptlet id="903ee94c-99ff-4c31-8248-d54bed6024dd">
+    <annotation></annotation>
+    <name>Operation Log Initializer (654f552c-58d9-4a57-8822-28c1c3467a30)</name>
+    <script>/////////////////////
+/// Verify inputs ///
+/////////////////////
+var inputsAreOK = true;
+scriptletResult = &quot;&quot;;
+
+//check: logDirectory	This op runs on the default worker group, in a cluster/ha environment it is recommended to put the log file on a file share.
+//check: logFilename	Filename...
+//check: pattern	default value: %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p - %m%n - Check the PatternLayout class here: http://logging.apache.org/log4j/1.2/apidocs/index.html
+//for all: assume ok, else we fail later on and return an error msg there
+
+//check: logLevel	Same options as known from log4j: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+var l4level = null;
+switch(logLevel){
+    case &quot;TRACE&quot;:
+        l4level = org.apache.log4j.Level.TRACE;
+        break;
+    case &quot;DEBUG&quot;:
+        l4level = org.apache.log4j.Level.DEBUG;
+        break;
+    case &quot;INFO&quot;:
+        l4level = org.apache.log4j.Level.INFO;
+        break;
+    case &quot;WARN&quot;:
+        l4level = org.apache.log4j.Level.WARN;
+        break;
+    case &quot;ERROR&quot;:
+        l4level = org.apache.log4j.Level.ERROR;
+        break;
+    case &quot;FATAL&quot;:
+        l4level = org.apache.log4j.Level.FATAL;
+        break;
+    default:
+        inputsAreOK = false;
+        scriptletResult += &quot;ERROR: Invalid logLevel!\n&quot;;
+ }
+
+//check: overwrite	default false, but if true the file will be cleared by this operation
+var ow = overwrite.toLowerCase();
+if (!(ow==&quot;true&quot; || ow==&quot;false&quot;)) {
+    inputsAreOK = false;
+    scriptletResult += &quot;ERROR: Invalid overwrite value!\n&quot;;
+}
+
+//check: logType	default value: FILE. Currently the only supported value. We intend to add MEMORY and MEMORY+FILE later on.
+if (logType!=&quot;FILE&quot;) {
+    inputsAreOK = false;
+    scriptletResult += &quot;ERROR: Invalid logType!\n&quot;;
+}
+
+
+/////////////////////
+///    MAIN       ///
+/////////////////////
+if (inputsAreOK) {
+    var append = true;
+    if (ow==&quot;true&quot;) append=false;
+    
+    var run_id = scriptletContext.get(&quot;run_id&quot;);
+    var message = &quot;Starting Log for run: &quot; + run_id;
+    
+    try{
+        var logger = new org.apache.log4j.Logger.getLogger(&quot;log4jOO&quot;);
+        logger.addAppender(new org.apache.log4j.FileAppender(new org.apache.log4j.PatternLayout(pattern), logLocation, append));
+        logger.setLevel(l4level);       
+        logger.debug(message);  //nice sideeffect: this always forces a new file on overwrite, independant of the master log level
+        logger.removeAllAppenders();//force flush and close file handle
+        logger = null; //regain memory
+        
+        scriptletContext.putGlobal(&quot;log4jOO_logLevel&quot;, logLevel); 
+        scriptletContext.putGlobal(&quot;log4jOO_filepath&quot;, logLocation); 
+        scriptletContext.putGlobal(&quot;log4jOO_pattern&quot;, pattern);
+    
+        scriptletResponse = &quot;success&quot;; 
+        scriptletResult = message;
+    }
+    catch (err) {
+        scriptletResponse = &quot;failure&quot;; 
+        scriptletResult = &quot;Unknown Error: &quot; + err.message;
+    }
+}
+else { //inputs not ok
+    scriptletResponse = &quot;failure&quot;; 
+    scriptletResult = String(scriptletResult).replace(/^\s+|\s+$/g, &apos;&apos;); //trim
+}
+</script>
+    <type>RHINO</type>
+  </scriptlet>
+  <possibleResponses>
+    <opResponse id="ae220348-7aff-4309-8133-b620a356c4f2">
+      <annotation></annotation>
+      <name>success</name>
+      <isDefault>false</isDefault>
+      <onFailure>false</onFailure>
+      <type>RESOLVED</type>
+      <matchRules/>
+    </opResponse>
+    <opResponse id="01034d58-2378-4bb4-9405-958de6fa3fc7">
+      <annotation></annotation>
+      <name>failure</name>
+      <isDefault>true</isDefault>
+      <onFailure>true</onFailure>
+      <type>ERROR</type>
+      <matchRules/>
+    </opResponse>
+  </possibleResponses>
+  <availableResultExpressions/>
+  <resultExpression id="c0eb44f7-1dff-4e21-8370-2ddfba3a8dcb">
+    <annotation></annotation>
+    <name>exception</name>
+    <fieldName>exception</fieldName>
+    <sourceType>RAWRESULT</sourceType>
+    <filters/>
+  </resultExpression>
+  <iconSpec id="0d844114-35c3-46a7-9d8a-51066da6cb66">
+    <baseIcon>document_text.png</baseIcon>
+    <basePath>/Operating System/</basePath>
+    <readOnly>false</readOnly>
+    <layers/>
+  </iconSpec>
+  <opRef>
+    <refId>ddd79f22-8b1e-4605-88d5-d912bb2da2b9</refId>
+  </opRef>
+  <fieldValues/>
+  <groupAliasRef>
+    <refId>5233030c-af46-432b-a682-b326ca6bf2ae</refId>
+    <refName>RAS_Operator_Path</refName>
+  </groupAliasRef>
+  <overrideGroupAlias>${overrideJRAS}</overrideGroupAlias>
+</operation>

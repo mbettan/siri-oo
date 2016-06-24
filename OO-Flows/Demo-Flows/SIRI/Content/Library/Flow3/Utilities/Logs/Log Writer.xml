@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operation id="d0e05ad1-2a21-4abb-9b1d-4c4b8ab0d877">
+  <descriptionCdata><![CDATA[d0e05ad1-2a21-4abb-9b1d-4c4b8ab0d877.description=<pre>This operation will log if level>\=logLevel (latter is set by initialise). If level<logLevel nothing happens and it is a success.\nIt is assumed that this the initialise operation has already been run.\n\nInputs\:\nmessage\tThe message to be logged\nlevel\tSame options as known from log4j\: TRACE, DEBUG, INFO, WARN, ERROR, FATAL\n\nResponses\:\nsuccess - the message was successfully logged to the file previously initialized.\nfailure - level is invalid or global vars not as expected.\n</pre>
+]]></descriptionCdata>
+  <annotation>d0e05ad1-2a21-4abb-9b1d-4c4b8ab0d877.description</annotation>
+  <name>Log Writer</name>
+  <categories/>
+  <inputs>
+    <userInputBinding id="08dfe547-df19-43fc-9fc1-85940d410dfd">
+      <annotation></annotation>
+      <assignFromContext>false</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>message</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <record>false</record>
+      <prompt></prompt>
+      <isMultiSelect>false</isMultiSelect>
+      <sourceDelimiter>|</sourceDelimiter>
+    </userInputBinding>
+    <userInputBinding id="d88fc8fb-c754-4f55-912d-8ec303fae114">
+      <annotation></annotation>
+      <assignFromContext>false</assignFromContext>
+      <assignToContext>true</assignToContext>
+      <inputType>STRING</inputType>
+      <isList>false</isList>
+      <required>true</required>
+      <isPersisted>true</isPersisted>
+      <inputSymbol>level</inputSymbol>
+      <listDelimiter>,</listDelimiter>
+      <record>false</record>
+      <prompt></prompt>
+      <isMultiSelect>false</isMultiSelect>
+      <sourceDelimiter>|</sourceDelimiter>
+    </userInputBinding>
+  </inputs>
+  <scriptlet id="7f8d9dad-3adf-4cb4-8e11-acb64d7574f1">
+    <annotation></annotation>
+    <name>Operation Log Writer (b97e74e1-947e-442c-b6ac-9c4f3fb659fc)</name>
+    <script>/////////////////////
+/// Verify inputs ///
+/////////////////////
+var inputsAreOK = true;
+scriptletResult = &quot;&quot;;
+
+//check globals
+var pattern = &quot;&quot; + scriptletContext.get(&quot;log4jOO_pattern&quot;);
+var filepath = &quot;&quot; + scriptletContext.get(&quot;log4jOO_filepath&quot;);
+var logLevel = &quot;&quot; + scriptletContext.get(&quot;log4jOO_logLevel&quot;);
+//var logging = scriptletContext.get(&quot;enableLogging&quot;);
+
+if (pattern==&quot;&quot; || filepath==&quot;&quot; || logLevel==&quot;&quot;) {
+    inputsAreOK = false;
+    scriptletResult += &quot;ERROR: Invalid globals!\n&quot;;
+}
+
+//check level
+var logger = new org.apache.log4j.Logger.getLogger(&quot;log4jOO&quot;);
+var lFunc = null;
+
+switch(level){//while we are at it, set the proper function to use
+    case &quot;TRACE&quot;:
+        lFunc = function () {logger.trace(message);};
+        break;
+    case &quot;DEBUG&quot;:
+        lFunc = function () {logger.debug(message);};
+        break;
+    case &quot;INFO&quot;:
+        lFunc = function () {logger.info(message);};
+        break;
+    case &quot;WARN&quot;:
+        lFunc = function () {logger.warn(message);};
+        break;
+    case &quot;ERROR&quot;:
+        lFunc = function () {logger.error(message);};
+        break;
+    case &quot;FATAL&quot;:
+        lFunc = function () {logger.fatal(message);};
+        break;
+    default:
+        inputsAreOK = false;
+        scriptletResult += &quot;ERROR: Invalid level!\n&quot;;
+}
+
+
+/////////////////////
+///    MAIN       ///
+/////////////////////
+if (inputsAreOK) {
+    var l4level = null;
+    switch(logLevel){
+        case &quot;TRACE&quot;:
+            l4level = org.apache.log4j.Level.TRACE;
+            break;
+        case &quot;DEBUG&quot;:
+            l4level = org.apache.log4j.Level.DEBUG;
+            break;
+        case &quot;INFO&quot;:
+            l4level = org.apache.log4j.Level.INFO;
+            break;
+        case &quot;WARN&quot;:
+            l4level = org.apache.log4j.Level.WARN;
+            break;
+        case &quot;ERROR&quot;:
+            l4level = org.apache.log4j.Level.ERROR;
+            break;
+        case &quot;FATAL&quot;:
+            l4level = org.apache.log4j.Level.FATAL;
+            break;
+    }
+    
+    logger.addAppender(new org.apache.log4j.FileAppender(new org.apache.log4j.PatternLayout(pattern), filepath, true));//always append here
+    logger.setLevel(l4level);
+    lFunc();
+    logger.removeAllAppenders(); //force flush and close file handle
+    
+    scriptletResponse = &quot;success&quot;; 
+    scriptletResult = message; 
+}
+else { //inputs not ok
+    scriptletResponse = &quot;failure&quot;; 
+    scriptletResult = String(scriptletResult).replace(/^\s+|\s+$/g, &apos;&apos;); //trim
+}
+
+logger = null; //regain memory
+</script>
+    <type>RHINO</type>
+  </scriptlet>
+  <possibleResponses>
+    <opResponse id="ff925f81-5f43-41f9-93ac-91e3fbbb0055">
+      <annotation></annotation>
+      <name>success</name>
+      <isDefault>false</isDefault>
+      <onFailure>false</onFailure>
+      <type>RESOLVED</type>
+      <matchRules/>
+    </opResponse>
+    <opResponse id="99ef0b8b-6156-4a92-bc84-9561a8dfb3ff">
+      <annotation></annotation>
+      <name>failure</name>
+      <isDefault>true</isDefault>
+      <onFailure>true</onFailure>
+      <type>ERROR</type>
+      <matchRules/>
+    </opResponse>
+  </possibleResponses>
+  <availableResultExpressions/>
+  <resultExpression id="e1a911db-700f-47b8-af4a-8fd7ecba3e90">
+    <annotation></annotation>
+    <name>FailureMessage</name>
+    <fieldName>FailureMessage</fieldName>
+    <sourceType>RAWRESULT</sourceType>
+    <filters/>
+  </resultExpression>
+  <iconSpec id="af988262-0b50-469a-8841-08bcb4560724">
+    <baseIcon>document_text.png</baseIcon>
+    <basePath>/Operating System/</basePath>
+    <readOnly>false</readOnly>
+    <layers/>
+  </iconSpec>
+  <opRef>
+    <refId>ddd79f22-8b1e-4605-88d5-d912bb2da2b9</refId>
+  </opRef>
+  <fieldValues/>
+  <groupAliasRef>
+    <refId>5233030c-af46-432b-a682-b326ca6bf2ae</refId>
+    <refName>RAS_Operator_Path</refName>
+  </groupAliasRef>
+  <overrideGroupAlias>${overrideJRAS}</overrideGroupAlias>
+</operation>
