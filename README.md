@@ -1,7 +1,6 @@
 # siri-oo
 SIRI OO Trigger workflows
-
-[![montage1](https://cloud.githubusercontent.com/assets/14251830/16399246/e45864be-3cd0-11e6-9891-87dcb6be01e8.png)](https://www.youtube.com/watch?v=vCFxBzplCqI&list=PLTHT-7anq_BWCvIChJ1G9BFmtZhZ4d3Oz&index=3)
+[![montage2](https://cloud.githubusercontent.com/assets/14251830/16399380/1ad5aca8-3cd2-11e6-9b7d-8fbbb9ff70b0.png)](https://www.youtube.com/watch?v=vCFxBzplCqI&list=PLTHT-7anq_BWCvIChJ1G9BFmtZhZ4d3Oz&index=3)
 
 This project is based on HAP-NodeJS project link: https://github.com/KhaosT/HAP-NodeJS.git
 The Startup script is based on node-startup project link: https://github.com/chovy/node-startup.git
