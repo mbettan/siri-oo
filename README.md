@@ -3,6 +3,8 @@ SIRI OO Trigger workflows
 This project is based on HAP-NodeJS project link: https://github.com/KhaosT/HAP-NodeJS.git
 The Startup script is based on node-startup project link: https://github.com/chovy/node-startup.git
 
+<iframe width="640" height="360" src="//www.youtube.com/embed/dfCd2eQfueY?list=UUw7F4bJbtGwORQwMBxlGb6w" frameborder="0" allowfullscreen></iframe>
+
 1. Install node.js, npm, node-gyp and other things we need:  
      ``sudo apt-get update``  
      ``sudo apt-get install nodejs npm git-core libnss-mdns libavahi-compat-libdnssd-dev``  
