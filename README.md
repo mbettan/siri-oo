@@ -1,5 +1,5 @@
 # siri-oo
-Watch this quick video for an overview : 
+Watch now this video for an overview : 
 [![montage2](https://cloud.githubusercontent.com/assets/14251830/16399380/1ad5aca8-3cd2-11e6-9b7d-8fbbb9ff70b0.png)](https://www.youtube.com/watch?v=DLW6PzS7jzw&index=1&list=PLTHT-7anq_BWCvIChJ1G9BFmtZhZ4d3Oz)
 
 This project is based on HAP-NodeJS project link: https://github.com/KhaosT/HAP-NodeJS.git
