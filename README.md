@@ -1,6 +1,7 @@
 # siri-oo
+
 Watch now this video for an overview : 
-[![montage1](https://cloud.githubusercontent.com/assets/14251830/16616745/884ac288-437f-11e6-99c8-641018e8db56.png)](https://www.youtube.com/watch?v=DLW6PzS7jzw&index=1&list=PLTHT-7anq_BWCvIChJ1G9BFmtZhZ4d3Oz)
+[![montage2](https://cloud.githubusercontent.com/assets/14251830/16399380/1ad5aca8-3cd2-11e6-9b7d-8fbbb9ff70b0.png)](https://youtu.be/DLW6PzS7jzw)
 
 This project is based on HAP-NodeJS project link: https://github.com/KhaosT/HAP-NodeJS.git
 The Startup script is based on node-startup project link: https://github.com/chovy/node-startup.git
