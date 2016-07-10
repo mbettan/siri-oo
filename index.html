@@ -19,12 +19,193 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="welcome-to-siri-oo-project" class="anchor" href="#welcome-to-siri-oo-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to SIRI-OO Project.</h3>
+      <h1>
+<a id="siri-oo" class="anchor" href="#siri-oo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>siri-oo</h1>
 
-<p>This website allows you to download the step-by-step guide to easily trigger HPE Operations Orchestration workflows from SIRI.</p>
+<p>Watch now this video for an overview : 
+<a href="https://youtu.be/DLW6PzS7jzw"><img src="https://cloud.githubusercontent.com/assets/14251830/16399380/1ad5aca8-3cd2-11e6-9b7d-8fbbb9ff70b0.png" alt="montage2"></a></p>
 
+<p>This project is based on HAP-NodeJS project link: <a href="https://github.com/KhaosT/HAP-NodeJS.git">https://github.com/KhaosT/HAP-NodeJS.git</a>
+The Startup script is based on node-startup project link: <a href="https://github.com/chovy/node-startup.git">https://github.com/chovy/node-startup.git</a></p>
 
+<ol>
+<li><p>Install node.js, npm, node-gyp and other things we need:<br>
+ <code>sudo apt-get update</code><br>
+ <code>sudo apt-get install nodejs npm git-core libnss-mdns libavahi-compat-libdnssd-dev</code><br>
+ <code>sudo npm config set registry http://registry.npmjs.org/</code><br>
+ <code>sudo npm install -g node-gyp</code>
+ <code>ln -s /usr/bin/nodejs /usr/bin/node</code></p></li>
+<li><p>Clone the siri-oo project :<br>
+ <code>git clone https://github.com/mbettan/siri-oo.git</code>  </p></li>
+<li><p>Go into the directory where you cloned it:<br>
+<code>cd siri-oo/HAP-NodeJS</code>  </p></li>
+<li><p>Rebuild npm:<br>
+<code>npm rebuild</code>  </p></li>
+<li><p>Rebuild npm:<br>
+<code>npm install node-persist debug mdns srp ed25519 curve25519 rest</code></p></li>
+<li><p>Make sure that the central_url variable in accessory js contains your url:<br>
+check accessories in siri-oo/HAP-NodeJS/accessories</p></li>
+<li><p>Try to run the server:<br>
+<code>node Core.js</code>  </p></li>
+</ol>
+
+<h1>
+<a id="node-startup" class="anchor" href="#node-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>node-startup</h1>
+
+<p>Startup script for Linux-based systems for running a HAP-Server Node JS app when rebooting, using an <strong>/etc/init.d</strong> script.</p>
+
+<h2>
+<a id="why-node-startup" class="anchor" href="#why-node-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why node-startup?</h2>
+
+<p>When my VPS was rebooted occassionally by the hosting provider, my Node.js app was not coming back online after boot. This script can be used in <strong>/etc/init.d</strong>, which will allow rc.d to restart your app when the machine reboots without your knowledge.</p>
+
+<h2>
+<a id="startup-installation" class="anchor" href="#startup-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Startup Installation</h2>
+
+<p>Clone the repo:</p>
+
+<pre><code>git clone https://github.com/chovy/node-startup.git
+cd node-startup/init.d
+</code></pre>
+
+<p>Edit the <strong>node-app</strong> script with your settings from the <strong>Configuration</strong> section, then follow instructions in the <strong>Running</strong> section.</p>
+
+<h2>
+<a id="startup-configuration" class="anchor" href="#startup-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Startup Configuration</h2>
+
+<p>At the top of the <strong>node-app</strong> file, a few items are declared which are either passed to the Node.js app or used for general execution/management.</p>
+
+<h3>
+<a id="nodejs-config-for-startup" class="anchor" href="#nodejs-config-for-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Node.js Config for Startup</h3>
+
+<p>The items declared and passed to the Node.js application are:</p>
+
+<ul>
+<li>
+<strong>NODE_ENV</strong> - the type of environment - <strong>development</strong>, <strong>production</strong>, etc. - can be read by the application to do things conditionally (defaults to <strong>"production"</strong>)</li>
+<li>
+<strong>PORT</strong> - the port that the Node.js application should listen on - should be read by the application and used when starting its server (defaults to <strong>"3000"</strong>)</li>
+<li>
+<strong>CONFIG_DIR</strong> - used for <a href="https://github.com/lorenwest/node-config">node-config</a> (defaults to <strong>"$APP_DIR"</strong>); is required, but should be kept as the default if not needed</li>
+</ul>
+
+<h3>
+<a id="execution-config" class="anchor" href="#execution-config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Execution Config</h3>
+
+<p>The items declared and used by the overall management of executing the application are:</p>
+
+<ul>
+<li>
+<strong>NODE_EXEC</strong> - location of the Node.js package executable - useful to set if the executable isn't on your PATH or isn't a service (defaults to <code>$(which node)</code>)</li>
+<li>
+<strong>APP_DIR</strong> - location of the Node.js application directory (defaults to <strong>"/var/www/example.com"</strong>, should be set to HAP-NodeJS path <strong>"/home/user/siri-oo/HAP-NodeJS"</strong>)</li>
+<li>
+<strong>NODE_APP</strong> - filename of the Node.js application (defaults to <strong>"app.js"</strong>, should be set to <strong>"Core.js"</strong>)</li>
+<li>
+<strong>PID_DIR</strong> - location of the PID directory (defaults to <strong>"$APP_DIR/pid"</strong>)</li>
+<li>
+<strong>PID_FILE</strong> - name of the PID file (defaults to <strong>"$PID_DIR/app.pid"</strong>)</li>
+<li>
+<strong>LOG_DIR</strong> - location of the log (Node.js application output) directory (defaults to <strong>"$APP_DIR/log"</strong>)</li>
+<li>
+<strong>LOG_FILE</strong> - name of the log file (defaults to <strong>"$LOG_DIR/app.log"</strong>)</li>
+<li>
+<strong>APP_NAME</strong> - name of the app for display and messaging purposes (defaults to <strong>"Node app"</strong>)</li>
+</ul>
+
+<h2>
+<a id="running-startup" class="anchor" href="#running-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Startup</h2>
+
+<p>Copy the startup script <strong>node-app</strong> to your <strong>/etc/init.d</strong> directory:</p>
+
+<pre><code>sudo bash -l
+cp ./init.d/node-app /etc/init.d/
+</code></pre>
+
+<h3>
+<a id="available-actions" class="anchor" href="#available-actions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available Actions</h3>
+
+<p>The service exposes 4 actions:</p>
+
+<ul>
+<li>
+<strong>start</strong> - starts the Node.js application</li>
+<li>
+<strong>stop</strong> - stops the Node.js application</li>
+<li>
+<strong>restart</strong> - stops the Node.js application, then starts the Node.js application</li>
+<li>
+<strong>status</strong> - returns the current running status of the Node.js application (based on the PID file and running processes)</li>
+</ul>
+
+<h4>
+<a id="force-action" class="anchor" href="#force-action" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Force Action</h4>
+
+<p>In addition to the <strong>start</strong>, <strong>stop</strong>, and <strong>restart</strong> actions, a <strong>--force</strong> option can be added to the execution so that the following scenarios have the following outcomes:</p>
+
+<ul>
+<li>
+<strong>start</strong> - PID file exists but application is stopped -&gt; removes PID file and starts the application</li>
+<li>
+<strong>stop</strong> - PID file exists but application is stopped -&gt; removes PID file</li>
+<li>
+<strong>restart</strong> - either of the above scenarios occur</li>
+</ul>
+
+<h3>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing</h3>
+
+<p>Test that it all works:</p>
+
+<pre><code>/etc/init.d/node-app start
+/etc/init.d/node-app status
+/etc/init.d/node-app restart
+/etc/init.d/node-app stop
+</code></pre>
+
+<p>Add <strong>node-app</strong> to the default runlevels:</p>
+
+<pre><code>update-rc.d node-app defaults
+</code></pre>
+
+<p>Finally, reboot to be sure the Node.js application starts automatically:</p>
+
+<pre><code>sudo reboot
+</code></pre>
+
+<h2>
+<a id="adding-homekit-to-ios" class="anchor" href="#adding-homekit-to-ios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding HomeKit to iOS</h2>
+
+<p>HomeKit is actually not an app; it's a "database" similar to HealthKit and PassKit. But where HealthKit has the companion <em>Health</em> app and PassKit has <em>Passbook</em>, Apple has supplied no app for managing your HomeKit database (at least <a href="http://9to5mac.com/2015/05/20/apples-planned-ios-9-home-app-uses-virtual-rooms-to-manage-homekit-accessories/">not yet</a>). However, the HomeKit API is open for developers to write their own apps for adding devices to HomeKit.</p>
+
+<p>Fortunately, there are now a few apps in the App Store that can manage your HomeKit devices. The most comprehensive one I've used is <a href="https://itunes.apple.com/us/app/mytouchhome/id965142360?mt=8&amp;at=11lvmd&amp;ct=mhweb">MyTouchHome</a> which costs $2.</p>
+
+<p>There are also some free apps that work OK. Try <a href="https://itunes.apple.com/US/app/id919270334?mt=8">Insteon+</a> or <a href="https://itunes.apple.com/us/app/lutron-app-for-caseta-wireless/id886753021?mt=8">Lutron</a> or a number of others.</p>
+
+<p>If you are a member of the iOS developer program, I highly recommend Apple's <a href="https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html">HomeKit Catalog</a> app, as it is reliable and comprehensive and free (and open source).</p>
+
+<p>Once you've gotten a HomeKit app running on your iOS device, it should "discover" the single accessory "Homebridge", assuming that you're still running Homebridge and you're on the same Wifi network. Adding this accessory will automatically add all accessories and platforms defined in <code>config.json</code>.</p>
+
+<p>When you attempt to add Homebridge, it will ask for a "PIN code". The default code is <code>031-45-154</code> (but this can be changed, see <code>config-sample.json</code>).</p>
+
+<h2>
+<a id="interacting-with-your-devices" class="anchor" href="#interacting-with-your-devices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interacting with your Devices</h2>
+
+<p>Once your device has been added to HomeKit, you should be able to tell Siri to control your devices. However, realize that Siri is a cloud service, and iOS may need some time to synchronize your device information with iCloud.</p>
+
+<p>One final thing to remember is that Siri will almost always prefer its default phrase handling over HomeKit devices. For instance, if you name your Sonos device "Radio" and try saying "Siri, turn on the Radio" then Siri will probably start playing an iTunes Radio station on your phone. Even if you name it "Sonos" and say "Siri, turn on the Sonos", Siri will probably just launch the Sonos app instead. This is why, for instance, the suggested <code>name</code> for the Sonos accessory is "Speakers".</p>
+
+<h2>
+<a id="startup-supported-os" class="anchor" href="#startup-supported-os" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Startup Supported OS</h2>
+
+<p>Tested with Debian 6.0, but it should work on other Linux systems that use startup scripts in <strong>/etc/init.d</strong> (Red Hat, CentOS, Gentoo, Ubuntu, etc.).</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LICENSE</h2>
+
+<p>(The MIT License)</p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/chovy/node-startup/trend.png" alt="Bitdeli Badge"></a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/mbettan/siri-oo">Siri-OO</a> is maintained by <a href="https://github.com/mbettan">mbettan</a>.</span>
