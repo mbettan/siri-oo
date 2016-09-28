@@ -8,7 +8,7 @@ The Startup script is based on node-startup project link: https://github.com/cho
 
 1. Install node.js, npm, node-gyp and other things we need:  
      ``sudo apt-get update``  
-     ``sudo apt-get install nodejs npm git-core libnss-mdns libavahi-compat-libdnssd-dev``  
+     ``sudo apt-get install -y nodejs npm git-core libnss-mdns libavahi-compat-libdnssd-dev``  
      ``sudo npm config set registry http://registry.npmjs.org/``  
      ``sudo npm install -g node-gyp``
      ``ln -s /usr/bin/nodejs /usr/bin/node``
