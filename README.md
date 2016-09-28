@@ -31,6 +31,7 @@ NodeJS install : https://nodejs.org/en/download/package-manager/#debian-and-ubun
 
 1. Rebuild npm:  
     ``npm install node-persist debug mdns srp ed25519 curve25519 rest``
+    ``npm install curve25519-n ed25519 node-gyp mdns srp rest``
 
 1. Make sure that the central_url variable in accessory js contains your url:  
     check accessories in siri-oo/HAP-NodeJS/accessories
