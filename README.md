@@ -7,7 +7,7 @@ This project is based on HAP-NodeJS project link: https://github.com/KhaosT/HAP-
 The Startup script is based on node-startup project link: https://github.com/chovy/node-startup.git
 NodeJS install : https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
 
-0. Install NodeJS 4.x
+0. Install NodeJS 4.x:
      ``curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -``  
      ``sudo apt-get install -y nodejs``  
      ``sudo apt-get install -y build-essential``  
